@@ -7,3 +7,11 @@
 /.png
 /.jpeg
 /.jpg 
+
+
+#Config Files
+/config/*
+
+#Test Files
+services/test.py
+services/test.py
