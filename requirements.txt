@@ -2,3 +2,4 @@ fastapi
 uvicorn 
 paddleocr
 paddlepaddle
+python-multipart
