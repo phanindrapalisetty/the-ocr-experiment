@@ -1,5 +1,8 @@
 #%%
 from paddleocr import PaddleOCR
+import json
+
+
 ocr = PaddleOCR(use_angle_cls = True, 
                     lang = 'en', 
                     use_space_char = True,
@@ -16,19 +19,38 @@ def get_paddle_ocr(filepath):
 
 # /home/phani/Desktop/phanindra-resume-06012024.pdf
 # %%
-path_ = '/home/phani/Desktop/phanindra-resume-06012024.pdf'
-result_ = get_paddle_ocr(path_)
+
 # %%
-def get_entire_text(filepath: str,
+def get_paddle_ocr_results(filepath):
+    dict_ = {}
+    inner_dict = {}
+    res_ = get_paddle_ocr(filepath)
+    
+    for i in range(len(res_)):
+        result = res_[i]
+        allText = ''
+        
+        for j in range(len(res_[i])):
+            allText = allText + res_[i][j][1][0] + ' '
+        dict_.update(
+            {
+                f"page_{i+1}" : {
+                    "allText": allText
+                }
+            }
+        )
+    return json.dumps(dict_)
+
+
+def get_ocr_results(filepath: str,
                         ocr_type: str = 'paddle'):
     valid_ocr_types = ['paddle']
     if ocr_type not in valid_ocr_types:
         raise ValueError(f'ocr_type should be one of {valid_ocr_types.split()}')
     else:
         if ocr_type == 'paddle':
-            dict_ = {}
-            res_ = get_paddle_ocr(filepath)
-            for i in range(len(res_)):
-                entireText = entireText + f"page_{i}\n"
-                for j in range(len(res_[i])):
-                    pass
+            result = get_paddle_ocr_results(filepath)
+        return result
+# %%
+if __name__ == "__main__":
+    print(1)
